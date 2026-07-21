@@ -1,0 +1,99 @@
+/**
+ * Default styles for react-quill-tooltip-helper.
+ *
+ * All classes are namespaced with `qtt-` to avoid colliding with app styles.
+ * Every visual property is a CSS custom property so consumers can theme
+ * without overriding selectors — see the `--qtt-*` variables below.
+ */
+
+:root {
+  --qtt-bg: #1a1a1a;
+  --qtt-text: #fff;
+  --qtt-border-radius: 6px;
+  --qtt-padding: 8px 12px;
+  --qtt-font-size: 14px;
+  --qtt-line-height: 1.4;
+  --qtt-width: 300px;
+  --qtt-z-index: 9999;
+  --qtt-caret-size: 6px;
+
+  --qtt-bg-light: #fff;
+  --qtt-text-light: #1a1a1a;
+  --qtt-mark-color: #3457d5;
+}
+
+.qtt-mark {
+  position: relative;
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--qtt-mark-color);
+}
+
+.qtt-bubble {
+  position: fixed;
+  display: flex;
+  z-index: var(--qtt-z-index);
+  background: var(--qtt-bg);
+  color: var(--qtt-text);
+  padding: var(--qtt-padding);
+  border-radius: var(--qtt-border-radius);
+  width: var(--qtt-width);
+  font-size: var(--qtt-font-size);
+  line-height: var(--qtt-line-height);
+  font-family: inherit;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow: visible;
+  text-align: start;
+
+  &--light {
+    background: var(--qtt-bg-light);
+    color: var(--qtt-text-light);
+
+    .qtt-bubble__caret {
+      border-top-color: var(--qtt-bg-light);
+    }
+  }
+
+  // Read-only preview bubble shrinks to fit its text, so a short tooltip
+  // doesn't render at the full input width. Input/edit bubbles keep the
+  // fixed width — they need room to type into.
+  &--hover {
+    width: max-content;
+    max-width: var(--qtt-width);
+    // Smooths `followCursor`'s per-mousemove position updates into a glide.
+    transition: top 0.08s ease-out, left 0.08s ease-out;
+  }
+}
+
+.qtt-bubble__input {
+  background: transparent;
+  color: inherit;
+  border: none;
+  outline: none;
+  width: 100%;
+  font-family: inherit;
+  font-size: var(--qtt-font-size);
+  line-height: var(--qtt-line-height);
+  padding: 0;
+  resize: none;
+  overflow: hidden;
+
+  &::placeholder {
+    color: currentColor;
+    opacity: 0.7;
+  }
+}
+
+.qtt-bubble__caret {
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: var(--qtt-caret-size) solid transparent;
+  border-right: var(--qtt-caret-size) solid transparent;
+  border-top: var(--qtt-caret-size) solid var(--qtt-bg);
+}

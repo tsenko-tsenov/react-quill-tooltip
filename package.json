@@ -1,0 +1,43 @@
+{
+  "name": "react-quill-tooltip",
+  "version": "1.0.0",
+  "description": "Inline tooltip annotations for Quill editors: mark text via a toolbar button, preview on hover, edit on click",
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+    "build": "tsc",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "react",
+    "quill",
+    "react-quill",
+    "tooltip",
+    "editor",
+    "rich-text",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "peerDependencies": {
+    "quill": "^1.3.0 || ^2.0.0",
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "@types/react": "^18.3.31",
+    "quill": "^2.0.3",
+    "typescript": "^5.9.3"
+  },
+  "files": [
+    "quill-tooltip.tsx",
+    "quill-tooltip.scss",
+    "index.ts",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  }
+}
