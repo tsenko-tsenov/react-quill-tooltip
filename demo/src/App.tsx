@@ -69,7 +69,7 @@ function App() {
         <section className="draft" aria-label="Editor">
           <div className="section-label">
             <span className="section-index">01</span>
-            <span>Draft</span>
+            <span>Editor</span>
           </div>
 
           <div className="editors-note">
@@ -188,7 +188,7 @@ function App() {
           <section className="rail-block" aria-label="HTML source">
             <div className="section-label">
               <span className="section-index">03</span>
-              <span>Source</span>
+              <span>HTML Output</span>
             </div>
             <div className="html-output">
               <pre>{content}</pre>
