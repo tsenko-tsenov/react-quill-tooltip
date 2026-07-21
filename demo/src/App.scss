@@ -352,6 +352,15 @@
     letter-spacing: 0.03em;
     color: var(--ink-soft);
   }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 // Custom toolbar -------------------------------------------------------------

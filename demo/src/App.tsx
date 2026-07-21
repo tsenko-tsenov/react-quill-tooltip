@@ -198,7 +198,13 @@ function App() {
       </main>
 
       <footer className="colophon">
-        <p>React Quill Tooltip — built with React, TypeScript, and Vite.</p>
+        <p>
+          React Quill Tooltip — built with React, TypeScript, and Vite. By{" "}
+          <a href="https://github.com/tsenko-tsenov" target="_blank" rel="noopener noreferrer">
+            @tsenko-tsenov
+          </a>
+          .
+        </p>
       </footer>
     </div>
   );
