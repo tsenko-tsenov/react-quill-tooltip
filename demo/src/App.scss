@@ -107,6 +107,10 @@
   gap: 2.5rem;
   align-items: start;
 
+  > * {
+    min-width: 0;
+  }
+
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
   }
@@ -137,6 +141,7 @@
 }
 
 .draft {
+  max-width: 100%;
   background: var(--paper-raised);
   border: 1px solid var(--rule);
   border-radius: 10px;
@@ -198,6 +203,7 @@
 }
 
 .rail-block {
+  max-width: 100%;
   background: var(--paper-raised);
   border: 1px solid var(--rule);
   border-radius: 10px;
@@ -288,7 +294,7 @@
     font-size: 0.82rem;
     color: var(--ink);
     white-space: pre-wrap;
-    word-wrap: break-word;
+    overflow-wrap: anywhere;
   }
 }
 
