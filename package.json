@@ -1,7 +1,7 @@
 {
   "name": "react-quill-tooltip",
-  "version": "1.0.1",
-  "description": "Inline tooltip annotations for Quill editors: mark text via a toolbar button, preview on hover, edit on click",
+  "version": "1.0.2",
+  "description": "Inline tooltip for Quill editors: mark text via a toolbar button, preview on hover, edit on click",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
