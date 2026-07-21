@@ -176,11 +176,17 @@
   box-shadow: var(--shadow-sm), var(--shadow-lg);
 }
 
+.toggle-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.1rem;
+}
+
 .demo-toggle {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  margin-bottom: 1.1rem;
   color: var(--ink);
   font-family: var(--font-body);
   font-size: 0.85rem;

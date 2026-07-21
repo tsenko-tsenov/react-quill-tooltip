@@ -16,6 +16,7 @@ function App() {
   const renderedRef = useRef<HTMLDivElement>(null);
   const [content, setContent] = useState(SEED_CONTENT);
   const [followCursor, setFollowCursor] = useState(false);
+  const [lightBubble, setLightBubble] = useState(false);
 
   // followCursor is a "Rendered HTML" preview-only toggle, so it's not
   // passed here.
@@ -40,7 +41,11 @@ function App() {
   }, []);
 
   // Hover-preview for the read-only rendered HTML pane.
-  useQuillTooltipRenderer(renderedRef, { followCursor }, [content, followCursor]);
+  useQuillTooltipRenderer(
+    renderedRef,
+    { followCursor, isLightContainer: () => lightBubble },
+    [content, followCursor, lightBubble]
+  );
 
   const modules = {
     toolbar: {
@@ -143,19 +148,34 @@ function App() {
               <span className="section-index">02</span>
               <span>Preview</span>
             </div>
-            <label className="demo-toggle">
-              <span className="switch">
-                <input
-                  type="checkbox"
-                  checked={followCursor}
-                  onChange={(e) => setFollowCursor(e.target.checked)}
-                />
-                <span className="switch-track">
-                  <span className="switch-thumb"></span>
+            <div className="toggle-group">
+              <label className="demo-toggle">
+                <span className="switch">
+                  <input
+                    type="checkbox"
+                    checked={followCursor}
+                    onChange={(e) => setFollowCursor(e.target.checked)}
+                  />
+                  <span className="switch-track">
+                    <span className="switch-thumb"></span>
+                  </span>
                 </span>
-              </span>
-              Follow cursor on hover
-            </label>
+                Follow cursor on hover
+              </label>
+              <label className="demo-toggle">
+                <span className="switch">
+                  <input
+                    type="checkbox"
+                    checked={lightBubble}
+                    onChange={(e) => setLightBubble(e.target.checked)}
+                  />
+                  <span className="switch-track">
+                    <span className="switch-thumb"></span>
+                  </span>
+                </span>
+                Light tooltip style
+              </label>
+            </div>
             <div className="rendered-output">
               <div
                 ref={renderedRef}
