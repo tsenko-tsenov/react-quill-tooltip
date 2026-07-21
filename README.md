@@ -7,7 +7,7 @@ preview it, click it to edit.
 Works with a live editor, and with read-only Quill HTML (e.g. rendered via
 `dangerouslySetInnerHTML`).
 
-**[Live demo →](https://tsenko-tsenov.github.io/react-quill-tooltip/)**
+**<a href="https://tsenko-tsenov.github.io/react-quill-tooltip/" target="_blank" rel="noopener noreferrer">Live demo →</a>**
 
 ## Install
 
