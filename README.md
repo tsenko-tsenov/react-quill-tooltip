@@ -1,5 +1,7 @@
 # React Quill Tooltip
 
+[![npm](https://img.shields.io/npm/v/react-quill-tooltip.svg)](https://www.npmjs.com/package/react-quill-tooltip)
+
 Add tooltips to text inside a [Quill](https://quilljs.com/) editor. Select
 some text, click a button, type a note — done. Hover the marked text to
 preview it, click it to edit.
