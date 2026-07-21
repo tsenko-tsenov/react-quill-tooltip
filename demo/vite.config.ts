@@ -2,7 +2,11 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
+  // GitHub Pages serves project sites from /<repo-name>/, not the domain
+  // root — only apply that prefix for production builds, so the local dev
+  // server keeps serving from /.
+  base: command === "build" ? "/react-quill-tooltip/" : "/",
   plugins: [react()],
   resolve: {
     alias: {
@@ -23,4 +27,4 @@ export default defineConfig({
     cssMinify: true,
     minify: 'esbuild',
   },
-});
+}));

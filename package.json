@@ -2,10 +2,11 @@
   "name": "react-quill-tooltip",
   "version": "1.0.0",
   "description": "Inline tooltip annotations for Quill editors: mark text via a toolbar button, preview on hover, edit on click",
-  "main": "index.ts",
-  "types": "index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "prepublishOnly": "npm run build",
     "type-check": "tsc --noEmit"
   },
   "keywords": [
@@ -17,7 +18,7 @@
     "rich-text",
     "typescript"
   ],
-  "author": "",
+  "author": "Tsenko Tsenov <tsenkotsenov15@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
     "quill": "^1.3.0 || ^2.0.0",
@@ -31,13 +32,16 @@
     "typescript": "^5.9.3"
   },
   "files": [
-    "quill-tooltip.tsx",
+    "dist",
     "quill-tooltip.scss",
-    "index.ts",
     "README.md"
   ],
   "repository": {
     "type": "git",
-    "url": ""
-  }
+    "url": "git+https://github.com/tsenko-tsenov/react-quill-tooltip.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tsenko-tsenov/react-quill-tooltip/issues"
+  },
+  "homepage": "https://github.com/tsenko-tsenov/react-quill-tooltip#readme"
 }
