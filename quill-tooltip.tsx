@@ -141,7 +141,7 @@ let isTooltipFormatRegistered = false;
  * Registers the `tooltip` inline format with Quill. Idempotent — safe to
  * call on every render/mount.
  */
-export const registerTooltipFormat = (
+export const defineTooltipFormat = (
   classNames?: Partial<QuillTooltipClassNames>
 ) => {
   if (isTooltipFormatRegistered) return;
@@ -311,7 +311,7 @@ const getTargetRectForElement = (element: HTMLElement): Rect => {
 };
 
 /** Where a bubble should sit (viewport coordinates) above `targetRect`. */
-export const positionTooltip = (
+export const computeTooltipPosition = (
   tooltipBox: HTMLElement,
   targetRect: Rect,
   gap = 8
@@ -378,7 +378,7 @@ const positionAndStyle = (
   targetRect: Rect,
   gap: number | undefined
 ) => {
-  const { top, left } = positionTooltip(bubble, targetRect, gap);
+  const { top, left } = computeTooltipPosition(bubble, targetRect, gap);
   bubble.style.left = `${left}px`;
   bubble.style.top = `${top}px`;
   bubble.style.transform = "translateX(-50%)";
@@ -444,11 +444,11 @@ const createAutoResizeTextarea = (
 
 /**
  * Opens a tooltip-text input bubble for the editor's current selection.
- * Exposed standalone (not just via `setupTooltipButton`) for callers that
+ * Exposed standalone (not just via `attachTooltipButton`) for callers that
  * want to trigger it from a custom toolbar handler or other UI. No-ops if
  * there's no active selection.
  */
-export const openTooltipInput = (
+export const openTooltipEditor = (
   quillRef: QuillRef,
   options: QuillTooltipOptions = {}
 ) => {
@@ -549,7 +549,7 @@ export const openTooltipInput = (
  * the editor's current selection. Call after both the button and the Quill
  * instance have mounted.
  */
-export const setupTooltipButton = (
+export const attachTooltipButton = (
   quillRef: QuillRef,
   options: QuillTooltipButtonOptions = {}
 ) => {
@@ -557,7 +557,7 @@ export const setupTooltipButton = (
   const button = document.getElementById(buttonId) as HTMLButtonElement | null;
   if (!button) return;
 
-  button.onclick = () => openTooltipInput(quillRef, options);
+  button.onclick = () => openTooltipEditor(quillRef, options);
 };
 
 const handleHover = (
@@ -751,7 +751,7 @@ const handleClick = (
  *
  * @returns Cleanup function — call on unmount to remove all listeners
  */
-export const setupTooltipInteractions = (
+export const attachTooltipEditor = (
   quillRef: QuillRef,
   options: QuillTooltipOptions = {}
 ): (() => void) => {
@@ -789,10 +789,10 @@ export const setupTooltipInteractions = (
 };
 
 /**
- * React hook wiring `registerTooltipFormat` + `setupTooltipInteractions` to a
+ * React hook wiring `defineTooltipFormat` + `attachTooltipEditor` to a
  * live Quill editor's lifecycle. Re-runs when `quillRef.current` changes.
  */
-export const useQuillTooltip = (
+export const useTooltipEditor = (
   quillRef: QuillRef,
   options: QuillTooltipOptions = {}
 ) => {
@@ -802,10 +802,10 @@ export const useQuillTooltip = (
   // React runs that before this hook's own effect (parent effects fire
   // last). Registering here guarantees `Quill.register` has already run by
   // the time any Quill instance using this ref is created.
-  registerTooltipFormat(options.classNames);
+  defineTooltipFormat(options.classNames);
 
   useEffect(() => {
-    return setupTooltipInteractions(quillRef, options);
+    return attachTooltipEditor(quillRef, options);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quillRef.current, options.followCursor]);
 };
@@ -817,7 +817,7 @@ export const useQuillTooltip = (
  *
  * @returns Cleanup function — call on unmount
  */
-export const setupTooltipRenderer = (
+export const attachTooltipRenderer = (
   containerRef: React.RefObject<HTMLElement | null>,
   options: QuillTooltipRendererOptions = {}
 ): (() => void) => {
@@ -902,17 +902,17 @@ export const setupTooltipRenderer = (
 };
 
 /**
- * React hook wiring `setupTooltipRenderer` to a container's lifecycle.
+ * React hook wiring `attachTooltipRenderer` to a container's lifecycle.
  * Re-runs whenever `deps` changes (pass the rendered content and any
  * formatting props affecting layout, e.g. `[content, rtl]`).
  */
-export const useQuillTooltipRenderer = (
+export const useTooltipRenderer = (
   containerRef: React.RefObject<HTMLElement | null>,
   options: QuillTooltipRendererOptions = {},
   deps: React.DependencyList = []
 ) => {
   useEffect(() => {
-    return setupTooltipRenderer(containerRef, options);
+    return attachTooltipRenderer(containerRef, options);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 };

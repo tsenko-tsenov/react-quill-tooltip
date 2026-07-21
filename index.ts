@@ -9,14 +9,14 @@
  */
 
 export {
-  registerTooltipFormat,
-  openTooltipInput,
-  setupTooltipButton,
-  setupTooltipInteractions,
-  setupTooltipRenderer,
-  useQuillTooltip,
-  useQuillTooltipRenderer,
-  positionTooltip,
+  defineTooltipFormat,
+  openTooltipEditor,
+  attachTooltipButton,
+  attachTooltipEditor,
+  attachTooltipRenderer,
+  useTooltipEditor,
+  useTooltipRenderer,
+  computeTooltipPosition,
   DEFAULT_CLASS_NAMES,
   type QuillInstance,
   type QuillRef,

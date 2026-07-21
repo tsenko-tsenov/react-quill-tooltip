@@ -23,7 +23,7 @@ have them.
 ```tsx
 import { useRef, useEffect } from "react";
 import ReactQuill from "react-quill";
-import { useQuillTooltip, setupTooltipButton } from "react-quill-tooltip";
+import { useTooltipEditor, attachTooltipButton } from "react-quill-tooltip";
 import "react-quill/dist/quill.snow.css";
 import "react-quill-tooltip/quill-tooltip.scss";
 
@@ -31,12 +31,12 @@ function Editor() {
   const quillRef = useRef<ReactQuill>(null);
 
   // Registers the `tooltip` format and wires up hover/click behavior.
-  useQuillTooltip(quillRef);
+  useTooltipEditor(quillRef);
 
   // Wires the "Add tooltip" button below to open a tooltip input for the
   // current selection. Run this after mount, once the button exists.
   useEffect(() => {
-    setupTooltipButton(quillRef);
+    attachTooltipButton(quillRef);
   }, []);
 
   return (
@@ -70,7 +70,7 @@ That's the whole setup. Here's what happens at runtime:
 3. **Hover** the marked text later to preview the note. **Click** it to edit,
    or clear the text and save to remove the tooltip.
 
-> **Heads up:** call `useQuillTooltip` in the component body, not inside a
+> **Heads up:** call `useTooltipEditor` in the component body, not inside a
 > `useEffect`. It registers the `tooltip` format, and that has to happen
 > before `<ReactQuill>` mounts — putting it in an effect runs it one render
 > too late, and the format silently doesn't get applied.
@@ -84,13 +84,13 @@ text:
 
 ```tsx
 import { useRef } from "react";
-import { useQuillTooltipRenderer } from "react-quill-tooltip";
+import { useTooltipRenderer } from "react-quill-tooltip";
 
 function Post({ html }: { html: string }) {
   const ref = useRef<HTMLDivElement>(null);
 
   // Re-runs whenever `html` changes, so it stays in sync with new content.
-  useQuillTooltipRenderer(ref, {}, [html]);
+  useTooltipRenderer(ref, {}, [html]);
 
   return <div ref={ref} dangerouslySetInnerHTML={{ __html: html }} />;
 }
@@ -104,33 +104,44 @@ fine):
 
 ```css
 :root {
-  --qtt-bg: #333;
-  --qtt-text: #fff;
-  --qtt-border-radius: 6px;
-  --qtt-width: 300px;
+  --qtt-bg: #1a1a1a; /* bubble background */
+  --qtt-text: #fff; /* bubble text color */
+  --qtt-bg-light: #fff; /* background when isLightContainer returns true */
+  --qtt-text-light: #1a1a1a; /* text color when isLightContainer returns true */
+  --qtt-mark-color: #3457d5; /* color of tooltip-marked text in the editor */
+  --qtt-border-radius: 6px; /* bubble corner radius */
+  --qtt-padding: 8px 12px; /* bubble inner padding */
+  --qtt-font-size: 14px;
+  --qtt-line-height: 1.4;
+  --qtt-width: 300px; /* bubble width (and max-width for the hover preview) */
+  --qtt-caret-size: 6px; /* size of the little arrow pointing at the text */
+  --qtt-z-index: 9999;
 }
 ```
+
+These are all the variables the default stylesheet uses — set only the ones
+you want to change, everything else keeps its default.
 
 Need different styling depending on where a tooltip lands (e.g. a dark
 section of the page)? Pass `isLightContainer` — return `true` for a given
 anchor element and its bubble gets a light-background variant instead:
 
 ```tsx
-useQuillTooltip(quillRef, {
+useTooltipEditor(quillRef, {
   isLightContainer: (el) => el.closest(".dark-section") !== null,
 });
 ```
 
 ## API
 
-| Function                                                 | What it does                                                           |
-| --------------------------------------------------------- | ------------------------------------------------------------------------- |
-| `useQuillTooltip(quillRef, options?)`                      | Hook. Registers the format and hover/click behavior on a live editor.     |
-| `useQuillTooltipRenderer(containerRef, options?, deps?)`   | Hook. Hover-preview only, for read-only rendered HTML.                    |
-| `setupTooltipButton(quillRef, options?)`                   | Wires a toolbar button (by id) to open the tooltip input.                 |
-| `openTooltipInput(quillRef, options?)`                     | Opens the tooltip input directly, for a custom trigger.                   |
-| `setupTooltipInteractions` / `setupTooltipRenderer`        | Non-hook versions of the two hooks above, for manual setup/teardown.      |
-| `registerTooltipFormat(classNames?)`                       | Registers the Quill format on its own (done automatically otherwise).     |
+| Function                                                 | What it does                                                            |
+| --------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `useTooltipEditor(quillRef, options?)`                     | Hook. Registers the format and hover/click behavior on a live editor.      |
+| `useTooltipRenderer(containerRef, options?, deps?)`        | Hook. Hover-preview only, for read-only rendered HTML.                     |
+| `attachTooltipButton(quillRef, options?)`                  | Wires a toolbar button (by id) to open the tooltip input.                  |
+| `openTooltipEditor(quillRef, options?)`                    | Opens the tooltip input directly, for a custom trigger.                    |
+| `attachTooltipEditor` / `attachTooltipRenderer`            | Non-hook versions of the two hooks above, for manual setup/teardown.       |
+| `defineTooltipFormat(classNames?)`                         | Registers the Quill format on its own (done automatically otherwise).     |
 
 The hook and non-hook version of the same thing behave identically — reach
 for the hook in a React component, and the plain function anywhere else
@@ -148,7 +159,7 @@ for the hook in a React component, and the plain function anywhere else
 }
 ```
 
-`setupTooltipButton` also takes `buttonId` (default `"qtt-toolbar-button"`).
+`attachTooltipButton` also takes `buttonId` (default `"qtt-toolbar-button"`).
 The renderer functions also take `rtl` (default `false`).
 
 ## TypeScript

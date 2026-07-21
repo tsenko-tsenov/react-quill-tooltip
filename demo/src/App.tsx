@@ -1,9 +1,9 @@
 import { useRef, useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useQuillTooltip, useQuillTooltipRenderer, setupTooltipButton } from "react-quill-tooltip";
+import { useTooltipEditor, useTooltipRenderer, attachTooltipButton } from "react-quill-tooltip";
 import "../../quill-tooltip.scss";
-import "./App.css";
+import "./App.scss";
 
 const FORMATS = ["header", "bold", "italic", "underline", "list", "bullet", "link", "tooltip"];
 
@@ -20,12 +20,12 @@ function App() {
 
   // followCursor is a "Rendered HTML" preview-only toggle, so it's not
   // passed here.
-  useQuillTooltip(quillRef, {
+  useTooltipEditor(quillRef, {
     placeholder: "Enter tooltip text...",
   });
 
   useEffect(() => {
-    setupTooltipButton(quillRef, {
+    attachTooltipButton(quillRef, {
       placeholder: "Enter tooltip text...",
     });
   }, []);
@@ -41,7 +41,7 @@ function App() {
   }, []);
 
   // Hover-preview for the read-only rendered HTML pane.
-  useQuillTooltipRenderer(
+  useTooltipRenderer(
     renderedRef,
     { followCursor, isLightContainer: () => lightBubble },
     [content, followCursor, lightBubble]
